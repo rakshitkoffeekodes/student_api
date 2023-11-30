@@ -1,32 +1,39 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from django.http import JsonResponse
 from .serilizers import *
 from .models import *
 from rest_framework.decorators import api_view
-from .serilizers import Documentserilizer
+
+
+# from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 
+# views.py
 
 @api_view(['POST'])
 def add_student(request):
-    student_name = request.POST['student_name']
-    student_father_name = request.POST['student_father_name']
-    student_mother_name = request.POST['student_mother_name']
-    student_dob = request.POST['student_dob']
-    upload_document = request.FILES['upload_document']
+    if request.method == 'POST':
+        student_name = request.POST['student_name']
+        student_father_name = request.POST['student_father_name']
+        student_mother_name = request.POST['student_mother_name']
+        student_dob = request.POST['student_dob']
+        upload_document = request.FILES.getlist('upload_document')
+        print(f'dfg {upload_document}')
 
-    try:
-        student.objects.create(
+        new_student = student(
             student_name=student_name,
             student_father_name=student_father_name,
             student_mother_name=student_mother_name,
             student_dob=student_dob,
             upload_document=upload_document
-
         )
-        return JsonResponse({'status': 'add student'})
-    except Exception as e:
-        return JsonResponse({"status": e.__str__()})
+
+        new_student.save()
+
+        return JsonResponse({'status': 'Success'})
+    else:
+        return JsonResponse({'status': 'no valid'})
 
 
 @api_view(['GET'])
@@ -73,13 +80,12 @@ def delete_student(request, pk):
     return JsonResponse({'status': 'Delete successfully'})
 
 
-@api_view(['POST'])
-def student_document(request):
-    upload_document = request.FILES.getlist('upload_document')
-    print(upload_document)
-    for i in upload_document:
-        Document.objects.create(
-            upload_document=upload_document
-        )
-    return JsonResponse({'status': 'Upload Document Successfully...'})
-
+# @api_view(['POST'])
+# def student_document(request):
+#     upload_document = request.FILES.getlist('upload_document')
+#     print(upload_document)
+#     for i in upload_document:
+#         Document.objects.create(
+#             upload_document=upload_document
+#         )
+#     return JsonResponse({'status': 'Upload Document Successfully...'})
