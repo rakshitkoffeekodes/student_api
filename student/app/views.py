@@ -1,39 +1,44 @@
+import base64
+import json
+import os
+
 from django.shortcuts import render
 from django.http import JsonResponse
+
+from student.settings import BASE_DIR
 from .serilizers import *
 from .models import *
 from rest_framework.decorators import api_view
 
 
-# from django.views.decorators.csrf import csrf_exempt
-
 # Create your views here.
 
-# views.py
 
 @api_view(['POST'])
 def add_student(request):
-    if request.method == 'POST':
-        student_name = request.POST['student_name']
-        student_father_name = request.POST['student_father_name']
-        student_mother_name = request.POST['student_mother_name']
-        student_dob = request.POST['student_dob']
-        upload_document = request.FILES.getlist('upload_document')
-        print(f'dfg {upload_document}')
+    try:
+        if request.method == 'POST':
+            student_name = request.POST['student_name']
+            student_father_name = request.POST['student_father_name']
+            student_mother_name = request.POST['student_mother_name']
+            student_dob = request.POST['student_dob']
+            upload_document = request.FILES.getlist('upload_document')
 
-        new_student = student(
-            student_name=student_name,
-            student_father_name=student_father_name,
-            student_mother_name=student_mother_name,
-            student_dob=student_dob,
-            upload_document=upload_document
-        )
+            data = student()
+            data.student_name = student_name
+            data.student_father_name = student_father_name
+            data.student_mother_name = student_mother_name
+            data.student_dob = student_dob
+            for files in upload_document:
+                print(files)
+                data.upload_document = os.path.join(BASE_DIR, str(files))
+            data.save()
+            return JsonResponse({'status': 'Success'})
+        else:
+            return JsonResponse({'status': 'No valid'})
 
-        new_student.save()
-
-        return JsonResponse({'status': 'Success'})
-    else:
-        return JsonResponse({'status': 'no valid'})
+    except Exception as e:
+        return JsonResponse({'status': e.__str__()})
 
 
 @api_view(['GET'])
@@ -78,7 +83,6 @@ def delete_student(request, pk):
     dlt.delete()
     dlt.save()
     return JsonResponse({'status': 'Delete successfully'})
-
 
 # @api_view(['POST'])
 # def student_document(request):

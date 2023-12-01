@@ -11,4 +11,5 @@ class student(models.Model):
     student_father_name = models.CharField(max_length=30)
     student_mother_name = models.CharField(max_length=30)
     student_dob = models.DateField()
-    upload_document = models.JSONField(null=True)
+    upload_document = models.JSONField(default=list)
+

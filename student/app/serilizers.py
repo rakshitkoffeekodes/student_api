@@ -5,9 +5,7 @@ from .models import *
 class studentserilizer(serializers.ModelSerializer):
     class Meta:
         model = student
-        upload_document = serializers.ListField(child=serializers.FileField())
         fields = ('student_name', 'student_father_name', 'student_mother_name', 'student_dob', 'upload_document')
-
 
 # class Documentserilizer(serializers.ModelSerializer):
 #     class Meta:
