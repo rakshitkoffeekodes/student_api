@@ -68,7 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'student.wsgi.application'
-
+TEMPLATE_DEBUG = False
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -122,5 +122,5 @@ STATIC_ROOT = '/path/to/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
