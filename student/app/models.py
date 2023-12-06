@@ -8,7 +8,7 @@ from django.db import models
 #     upload_document = models.FileField(upload_to='files/')
 
 
-class student(models.Model):
+class Student(models.Model):
     student_name = models.CharField(max_length=30)
     student_father_name = models.CharField(max_length=30)
     student_mother_name = models.CharField(max_length=30)
@@ -20,13 +20,23 @@ class student(models.Model):
         return self.student_name
 
 
-class ParentsData(models.Model):
-    student = models.ForeignKey(student, on_delete=models.CASCADE)
+class Parents_data(models.Model):
+    Gender_choice = (
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other')
+    )
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     parents_name = models.CharField(max_length=30)
     parents_mobile_no = models.CharField(max_length=10, unique=True)
     parents_email = models.EmailField(unique=True)
-    parents_gender = models.CharField(max_length=20)
+    parents_gender = models.CharField(choices=Gender_choice, default='Male', max_length=10)
     parents_DOB = models.DateField()
+
+    class Meta:
+        verbose_name = "Parent"
 
     def __str__(self):
         return self.parents_name
+

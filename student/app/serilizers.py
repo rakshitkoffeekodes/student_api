@@ -4,12 +4,12 @@ from .models import *
 
 class studentserilizer(serializers.ModelSerializer):
     class Meta:
-        model = student
+        model = Student
         fields = (
-        'student_name', 'student_father_name', 'student_mother_name', 'student_dob', 'upload_document', 'datetime')
+            'student_name', 'student_father_name', 'student_mother_name', 'student_dob', 'upload_document', 'datetime')
 
 
-class ParentsDataserilizer(serializers.ModelSerializer):
+class Parentsserilizer(serializers.ModelSerializer):
     class Meta:
-        model = ParentsData
+        model = Parents_data
         fields = ('student_name', 'parents_name', 'parents_mobile_no', 'parents_email', 'parents_gender', 'parents_DOB')

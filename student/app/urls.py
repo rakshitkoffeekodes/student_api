@@ -8,7 +8,7 @@ urlpatterns = [
     path('get_document/', views.get_document),
     path('view_student/', views.view_student),
     path('update_student/', views.update_student),
-    path('delete_student/<int:pk>/', views.delete_student),
+    path('delete_student/', views.delete_student),
     path('parents/', views.parents),
     path('date_to_data/', views.date_to_data),
 ]
